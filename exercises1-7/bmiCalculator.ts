@@ -1,3 +1,5 @@
+import { parseHeightAndWeight } from "./utils";
+
 // Bmi value with the bmiUpperLimit defining the bmi
 type BmiValues = {
   bmiUpperLimit: number;
@@ -21,16 +23,21 @@ const calculateBmi = (height: number, weight: number): string => {
   const heightMeters: number = height / 100;
   const bmi: number = weight / (heightMeters ** 2);
 
-  // Find the matching bmi value
-  const value = bmiVals.find((value) => bmi < value.bmiUpperLimit);
-  return value ? value.description : 'Something went wrong calculating BMI';
+  try {
+    const value = bmiVals.find((value) => bmi < value.bmiUpperLimit);
+    return value.description;
+  } catch (error: unknown) {
+    throw new Error(`Something went wrong calculating bmi with the arguments height: ${height}. weight: ${weight}`);
+  }
 }
 
-console.log(calculateBmi(182, 55.78));
-console.log(calculateBmi(180, 40));
-
-console.log(calculateBmi(180, 60));
-console.log(calculateBmi(180, 74));
-
-console.log(calculateBmi(170, 110));
-console.log(calculateBmi(190, 210));
+try {
+  const { height, weight } = parseHeightAndWeight(process.argv);
+  console.log(calculateBmi(height, weight));
+} catch (error: unknown) {
+  let errorMessage = 'Something went wrong calculating BMI: ';
+  if (error instanceof Error) {
+    errorMessage += ' Error ' + error.message;
+  }
+  console.log(errorMessage);
+}

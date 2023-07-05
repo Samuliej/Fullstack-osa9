@@ -1,3 +1,5 @@
+import { parseExerciseData } from "./utils";
+
 interface WeeklyOverview {
   periodLength: number;
   trainingDays: number;
@@ -13,6 +15,7 @@ type SuccessRating = {
   averageHours: number;
   rating: number;
 };
+
 
 const calculateExercises = (dailyHours: number[], targetHours: number): WeeklyOverview => {
 
@@ -79,7 +82,14 @@ const calculateExercises = (dailyHours: number[], targetHours: number): WeeklyOv
   }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
-console.log(calculateExercises([2, 0, 2.4, 0, 2, 4, 2] , 1.5))
-console.log(calculateExercises([3, 3, 3, 3, 2, 3, 2], 3))
-console.log(calculateExercises([0, 0, 1.4, 0.5, 0.8, 1, 1.4], 1))
+try {
+  const exerciseData = parseExerciseData(process.argv);
+  console.log(exerciseData);
+  console.log(calculateExercises(exerciseData.dailyHours, exerciseData.targetHours));
+} catch (error: unknown) {
+  let errorMessage = 'Something went wrong: ';
+  if (error instanceof Error) {
+    errorMessage += ' Error ' + error.message;
+  }
+  console.log(errorMessage);
+}
