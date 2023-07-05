@@ -8,14 +8,11 @@ interface ExerciseData {
   dailyHours: number[];
 }
 
-export const parseHeightAndWeight = (args: string[]): HeightWeight => {
-  if (args.length < 4) throw new Error('Not enough arguments');
-  if (args.length > 4) throw new Error('Too many arguments');
-
-  if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+export const parseHeightAndWeight = (height: string, weight: string): HeightWeight => {
+  if (!isNaN(Number(height)) && !isNaN(Number(weight))) {
     return {
-      height: Number(args[2]),
-      weight: Number(args[3])
+      height: Number(height),
+      weight: Number(weight)
     }
   } else {
     throw new Error('Provided values were not numbers');

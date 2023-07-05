@@ -52,8 +52,10 @@ const calculateExercises = (dailyHours: number[], targetHours: number): WeeklyOv
   const trainedHours: number = dailyHours.reduce((sum ,current) => sum + current, 0);
   const averageHours: number = trainedHours / periodLength;
 
-  // Find the fitting SuccessRating object
-  const rating: SuccessRating = trainingGoals.find((rating) => averageHours >= rating.averageHours);
+  // Find the fitting SuccessRating object place an Object with default values if one is not found
+  const rating: SuccessRating =
+    (trainingGoals.find((rating) => averageHours >= rating.averageHours))
+    || { description: '', averageHours: 0, rating: 0};
 
   // In the case where a fitting rating can't be found, return an object with description as an arreor message
   if (!rating) {

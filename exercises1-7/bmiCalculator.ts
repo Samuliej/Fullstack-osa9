@@ -6,7 +6,24 @@ type BmiValues = {
   description: string;
 };
 
-const calculateBmi = (height: number, weight: number): string => {
+// New type for return data
+type BmiOverview = {
+  weight: number;
+  height: number;
+  bmi: string;
+}
+
+export const calculateBmi = (height: string, weight: string): BmiOverview => {
+  let measurements;
+  try {
+    measurements = parseHeightAndWeight(height, weight);
+  } catch (error: unknown) {
+    let errorMessage = 'Something went wrong calculating BMI: ';
+    if (error instanceof Error) {
+      errorMessage += ' Error ' + error.message;
+    }
+    console.log(errorMessage);
+  }
 
   // array of Hard coded bmi values according to wikipedia
   const bmiVals: BmiValues[] = [
@@ -20,24 +37,25 @@ const calculateBmi = (height: number, weight: number): string => {
     { bmiUpperLimit: Infinity, description: 'Obese (Class III obese weight)' },
   ];
 
-  const heightMeters: number = height / 100;
-  const bmi: number = weight / (heightMeters ** 2);
+  if (measurements) {
+    const heightMeters: number = measurements.height / 100;
+    const bmi: number = measurements.weight / (heightMeters ** 2);
 
-  try {
-    const value = bmiVals.find((value) => bmi < value.bmiUpperLimit);
-    return value.description;
-  } catch (error: unknown) {
-    throw new Error(`Something went wrong calculating bmi with the arguments height: ${height}. weight: ${weight}`);
+    try {
+      const value = bmiVals.find((value) => bmi < value.bmiUpperLimit);
+      if (value) return {
+        weight: measurements.weight,
+        height: measurements.height,
+        bmi: value.description
+      }
+    } catch (error: unknown) {
+      throw new Error(`Something went wrong calculating bmi with the arguments height: ${height}. weight: ${weight}`);
+    }
   }
-}
 
-try {
-  const { height, weight } = parseHeightAndWeight(process.argv);
-  console.log(calculateBmi(height, weight));
-} catch (error: unknown) {
-  let errorMessage = 'Something went wrong calculating BMI: ';
-  if (error instanceof Error) {
-    errorMessage += ' Error ' + error.message;
+  return {
+    weight: 0,
+    height: 0,
+    bmi: 'Bmi could not be calculated'
   }
-  console.log(errorMessage);
 }
