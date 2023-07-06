@@ -17,8 +17,7 @@ type SuccessRating = {
 };
 
 
-const calculateExercises = (dailyHours: number[], targetHours: number): WeeklyOverview => {
-
+export const calculateExercises = (dailyHours: number[], targetHours: number): WeeklyOverview => {
   // Hard coded training goals to handle as many cases as possible
   const trainingGoals: SuccessRating[] = [
     // Handling cases with a lot of exercise per week
