@@ -11,7 +11,7 @@ type BmiOverview = {
   weight: number;
   height: number;
   bmi: string;
-}
+};
 
 export const calculateBmi = (height: string, weight: string): BmiOverview => {
   let measurements;
@@ -47,7 +47,7 @@ export const calculateBmi = (height: string, weight: string): BmiOverview => {
         weight: measurements.weight,
         height: measurements.height,
         bmi: value.description
-      }
+      };
     } catch (error: unknown) {
       throw new Error(`Something went wrong calculating bmi with the arguments height: ${height}. weight: ${weight}`);
     }
@@ -57,5 +57,5 @@ export const calculateBmi = (height: string, weight: string): BmiOverview => {
     weight: 0,
     height: 0,
     bmi: 'Bmi could not be calculated'
-  }
-}
+  };
+};

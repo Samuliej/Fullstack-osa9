@@ -13,11 +13,11 @@ export const parseHeightAndWeight = (height: string, weight: string): HeightWeig
     return {
       height: Number(height),
       weight: Number(weight)
-    }
+    };
   } else {
     throw new Error('Provided values were not numbers');
   }
-}
+};
 
 export const parseExerciseData = (args: string[]): ExerciseData => {
   if (args.length < 4) throw new Error('Not enough arguments');
@@ -37,8 +37,8 @@ export const parseExerciseData = (args: string[]): ExerciseData => {
     return {
       targetHours: targetHours,
       dailyHours: dailyHours
-    }
-} else {
+    };
+  } else {
   throw new Error('Provided target hours was not a number');
-}
-}
+  }
+};

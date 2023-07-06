@@ -44,7 +44,7 @@ const calculateExercises = (dailyHours: number[], targetHours: number): WeeklyOv
   ];
 
   const periodLength: number = dailyHours.length;
-  let trainingDays: number = 0;
+  let trainingDays = 0;
   // Calculate trained days
   dailyHours.forEach(hours => hours > 0 ? trainingDays += 1 : null );
 
@@ -67,7 +67,7 @@ const calculateExercises = (dailyHours: number[], targetHours: number): WeeklyOv
       ratingDescription: 'Something went wrong calculating the result',
       target: 0,
       average: 0
-    }
+    };
   }
 
   // Check if target is met
@@ -81,8 +81,8 @@ const calculateExercises = (dailyHours: number[], targetHours: number): WeeklyOv
     ratingDescription: rating.description,
     target: targetHours,
     average: averageHours
-  }
-}
+  };
+};
 
 try {
   const exerciseData = parseExerciseData(process.argv);
