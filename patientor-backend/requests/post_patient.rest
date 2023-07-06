@@ -4,6 +4,7 @@ Content-Type: application/json
 {
   "name": "Harris On Ford",
   "dateOfBirth": "1956-04-12",
+  "ssn": "120456-431T",
   "gender": "male",
   "occupation": "Leffastara"
 }
