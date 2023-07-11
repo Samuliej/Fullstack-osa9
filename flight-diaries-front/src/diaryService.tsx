@@ -9,8 +9,7 @@ export const getAllDiaries = () => {
     .then(response => response.data);
 };
 
-export const createDiary = (newDiary: NewDiary) => {
-  return axios
-    .post<Diary>(baseUrl, newDiary)
-    .then(response => response.data);
+export const createDiary = async (newDiary: NewDiary) => {
+  const response = await axios.post<Diary>( baseUrl, newDiary );
+  return response.data;
 };
