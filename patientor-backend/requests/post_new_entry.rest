@@ -1,0 +1,17 @@
+POST http://localhost:3001/api/patients/d27736ec-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+  "date": "2019-10-20",
+  "specialist": "MD House",
+  "description": "Healing time appr. 5 days, patient got headbutted by a tire.",
+  "employerName": "Lapin Kumi",
+  "diagnosisCodes": [
+    "S03.5",
+    "H54.7"
+  ],
+  "sickLeave": {
+    "startDate": "2019-11-20",
+    "endDate": "2019-16-20"
+  }
+}

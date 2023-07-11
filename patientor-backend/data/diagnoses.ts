@@ -1,4 +1,4 @@
-const data = [
+const diagnosticData = [
   {
     "code": "M24.2",
     "name": "Disorder of ligament",
@@ -78,4 +78,4 @@ const data = [
   }
 ];
 
-export default data;
+export default diagnosticData;
