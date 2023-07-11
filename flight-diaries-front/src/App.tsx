@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Diary } from './types';
 import { getAllDiaries } from './diaryService';
+import DiaryForm from './components/DiaryForm';
 
 interface DiariesProps {
   diaries: Diary[];
@@ -47,6 +48,7 @@ function App() {
 
   return (
     <div>
+      <DiaryForm />
       <Diaries diaries={diaries} />
     </div>
   );
