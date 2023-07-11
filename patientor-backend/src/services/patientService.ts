@@ -3,14 +3,13 @@ import { PatientNoSsn, NewPatient, Patient } from '../types';
 import { v1 as uuid } from 'uuid';
 
 const getPatients = (): Patient[] => {
-  return data.map(({ id, ssn, name, dateOfBirth, gender, occupation }) => ({
-    id, ssn, name, dateOfBirth, gender, occupation, entries: []
-  }));
+  console.log(data);
+  return data;
 };
 
 const getPatientsNoSsn = (): PatientNoSsn[] => {
-  return data.map(({ id, name, dateOfBirth, gender, occupation }) => ({
-    id, name, dateOfBirth, gender, occupation, entries: []
+  return data.map(({ id, name, dateOfBirth, gender, occupation, entries }) => ({
+    id, name, dateOfBirth, gender, occupation, entries
   }));
 };
 
@@ -27,9 +26,7 @@ const addPatient = (info: NewPatient): Patient => {
 const findPatient = (id: string): Patient => {
   const patientToFind = data.find(patient => id === patient.id);
   if (patientToFind) {
-    return {
-      ...patientToFind, entries: []
-    };
+    return patientToFind;
   } else {
     throw new Error(`Patient with id: ${id} could not be found`);
   }
