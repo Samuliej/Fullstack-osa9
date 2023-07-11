@@ -24,6 +24,7 @@ const DiaryForm = () => {
   const [weather, setWeather] = useState<Weather>(Weather.Sunny);
   const [comment, setComment] = useState<string>('');
 
+
   useEffect(() => {
     if (error) {
       const timeout = setTimeout(() => {
@@ -35,6 +36,7 @@ const DiaryForm = () => {
       };
     }
   }, [error]);
+
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -68,23 +70,40 @@ const DiaryForm = () => {
         <div>
           date
           <input
+            type='date'
             value={date}
             onChange={({ target }) => setDate(target.value)}
           />
         </div>
         <div>
           visibility
-          <input
-            value={visibility}
-            onChange={({ target }) => setVisibility(target.value as Visibility)}
-          />
+          {Object.values(Visibility).map((value) => (
+            <label key={value}>
+              <input
+                type="radio"
+                name="visibility"
+                value={value}
+                checked={visibility === value}
+                onChange={({ target }) => setVisibility(target.value as Visibility)}
+              />
+              {value}
+            </label>
+          ))}
         </div>
         <div>
           weather
-          <input
-            value={weather}
-            onChange={({ target }) => setWeather(target.value as Weather)}
-          />
+          {Object.values(Weather).map((value) => (
+            <label key={value}>
+              <input
+                type="radio"
+                name="weather"
+                value={value}
+                checked={weather === value}
+                onChange={({ target }) => setWeather(target.value as Weather)}
+              />
+              {value}
+            </label>
+          ))}
         </div>
         <div>
           comment

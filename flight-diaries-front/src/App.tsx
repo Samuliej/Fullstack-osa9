@@ -44,7 +44,7 @@ function App() {
     getAllDiaries().then(data => {
       setDiaries(data);
     });
-  }, []);
+  }, [diaries]);
 
   return (
     <div>
