@@ -146,7 +146,7 @@ const parseSpecialist = (specialist: unknown): string => {
 const parseDiagnosisCodes = (object: unknown): Array<Diagnose['code']> =>  {
   if (!object || typeof object !== 'object' || !('diagnosisCodes' in object)) {
     // we will just trust the data to be in correct form
-    return [] as Array<Diagnose['code']>;
+    return object as Array<Diagnose['code']>;
   }
 
   return object.diagnosisCodes as Array<Diagnose['code']>;
@@ -162,29 +162,32 @@ const parseEmployer = (employer: unknown): string => {
 
 const isOccupationalHealthcareEntry = (entry: object): entry is OccupationalHealthcareEntry => {
   if ('employerName' in entry) {
+    if (!entry.employerName) {
+      throw new Error(`No employer`);
+    }
     return true;
   }
   return false;
 };
 
 const parseSickLeave = (sickLeave: object): SickLeave => {
-  if ('startDate' in sickLeave && 'endDate' in sickLeave) {
-    if (!isString(sickLeave.startDate)) {
-      throw new Error(`Malformatted sick leave start: ${sickLeave.startDate}`);
+  if ('sickLeaveStart' in sickLeave && 'sickLeaveEnd' in sickLeave) {
+    if (!isString(sickLeave.sickLeaveStart)) {
+      throw new Error(`Malformatted sick leave start: ${sickLeave.sickLeaveStart}`);
     }
-    if (!isDate(sickLeave.startDate)) {
-      throw new Error(`Malformatted sick leave start: ${sickLeave.endDate}`);
+    if (!isDate(sickLeave.sickLeaveStart)) {
+      throw new Error(`Malformatted sick leave start: ${sickLeave.sickLeaveEnd}`);
     }
-    if (!isString(sickLeave.endDate)) {
-      throw new Error(`Malformatted sick leave end: ${sickLeave.endDate}`);
+    if (!isString(sickLeave.sickLeaveEnd)) {
+      throw new Error(`Malformatted sick leave end: ${sickLeave.sickLeaveEnd}`);
     }
-    if (!isDate(sickLeave.endDate)) {
-      throw new Error(`Malformatted sick leave end: ${sickLeave.endDate}`);
+    if (!isDate(sickLeave.sickLeaveEnd)) {
+      throw new Error(`Malformatted sick leave end: ${sickLeave.sickLeaveEnd}`);
     }
 
     return {
-      startDate: sickLeave.startDate,
-      endDate: sickLeave.endDate
+      startDate: sickLeave.sickLeaveStart,
+      endDate: sickLeave.sickLeaveEnd
     };
   }
   throw new Error(`Something else went wrong: ${sickLeave}`);
@@ -232,8 +235,11 @@ const parseDischarge = (discharge: object) => {
 };
 
 const isDischarge = (discharge: object): discharge is Discharge => {
-  if (!('date' in discharge && 'criteria' in discharge)) {
-    throw new Error(`Incorrect discharge: ${discharge}`);
+  if (! ('date' in discharge)) {
+    throw new Error(`Discharge missing date: ${discharge}`);
+  }
+  if (! ('criteria' in discharge)) {
+    throw new Error(`Discharge missing criteria: ${discharge}`);
   }
   if (!isString(discharge.date)) {
     throw new Error(`Malformatted discharge date: ${discharge.date}`);
@@ -281,7 +287,6 @@ export const toNewEntry = (object: unknown): NewEntry => {
           };
         }
       }
-
       return newOccupationalEntry;
     } else if (isHealthCheckEntry(object)) {
       const newHealthCareEntry: NewEntry = {
